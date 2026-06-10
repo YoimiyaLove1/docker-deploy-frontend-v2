@@ -1,4 +1,4 @@
-name: Deploy frontend application
+name: Build and Push Frontend
 on: 
   push: 
     branches: 
@@ -24,16 +24,3 @@ jobs:
           context: .
           push: true 
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/234-deploylab-frontend:latest
-      
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.2.4
-        with:
-          host: ${{ secrets.HOST_SERVER }} 
-          username: ${{ secrets.HOST_USER_NAME }} 
-          key: ${{ secrets.HOST_SSH_PRIVATE_KEY }} 
-          port: 22 
-          script: | 
-            echo ${{ secrets.DOCKER_HUB_TOKEN }} | docker login --username ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin 
-            docker stop frontend-app || true
-            docker rm frontend-app || true
-            docker run -d -p 8081:80 --name frontend-app ${{ secrets.DOCKER_HUB_USERNAME }}/234-deploylab-frontend:latest
