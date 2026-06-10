@@ -1,7 +1,10 @@
 services:
-  frontend: 
-    image: {yoimiyalove1}/234-deploylab-frontend:latest 
-    pull_policy: always 
-    ports: 
-      - "8081:80" 
+  frontend:
+    image: yoimiyalove1/234-deploylab-frontend:latest
+    pull_policy: always
+    ports:
+      - "8081:8080"
+    environment:
+      - VITE_GRAPHQL_URI=http://13.217.214.53:8082/graphql
+      - VITE_SERVER_URI=http://13.217.214.53:8082
     restart: unless-stopped
